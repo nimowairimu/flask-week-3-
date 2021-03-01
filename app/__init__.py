@@ -1,18 +1,14 @@
 from flask import Flask 
 from flask_bootstrap import Bootstrap
-from app import views
 from app import error
+from flask_sqlalchemy import SQLAlchemy
+from .config import config_options
 
+bootstrap = Bootstrap()
+db = SQLAlchemy()
 
-# INitializing application
-app = Flask(__name__)
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config_options[config_name])
 
-
-# Setting up configuration 
-app.config.from_object(DevConfig)
-app.config.from_pyfile("config.py")
-
-# Initializing Flask Extensions
-bootstrap = Bootstrap(app)
-
-from app import views
+from app import views    
