@@ -12,25 +12,25 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    pitches = Pitch.query.all()
+    pitch = Pitch.query.all()
     enterpreneur = Pitch.query.filter_by(category = 'Enterpreneur').all()
     sales = Pitch.query.filter_by(category = 'Sales').all()
     interview = Pitch.query.filter_by(category = 'Interview').all
-    return render_template('index.html',pitches = pitches enterpreneur = enterpreneur ,sales = sales ,interview = interview)
+    return render_template('index.html',pitch = pitch ,enterpreneur = enterpreneur ,sales = sales ,interview = interview)
 
-@main.route('/user/<uname>')
-def profile(uname):
-    user = User.query.filter_by(username = uname).first()
+@main.route('/user/<username>')
+def profile(username):
+    user = User.query.filter_by(username = username).first()
 
     if user is None:
         abort(404)
 
     return render_template("profile/profile.html", user = user)
 
-@main.route('/user/<uname>/update',methods = ['GET','POST'])
+@main.route('/user/<username>/update',methods = ['GET','POST'])
 @login_required
-def update_profile(uname):
-    user = User.query.filter_by(username = uname).first()
+def update_profile(username):
+    user = User.query.filter_by(username = username).first()
     if user is None:
         abort(404)
 
@@ -42,7 +42,7 @@ def update_profile(uname):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile',uname=user.username))
+        return redirect(url_for('.profile',username=user.username))
 
     return render_template('profile/update.html',form =form)
 
@@ -89,7 +89,7 @@ def comment(pitch_id):
     return render_template('comment.html', form =form, pitch = pitch,all_comments=all_comments)
 
 
-@main.route('/like/<int:id>',methods = ['POST','GET'])
+@main.route('/upvote/<int:id>',methods = ['POST','GET'])
 @login_required
 def upvote(id):
     get_pitches = Upvote.get_upvotes(id)
@@ -105,7 +105,7 @@ def upvote(id):
     new_vote.save()
     return redirect(url_for('main.index',id=id))
 
-@main.route('/dislike/<int:id>',methods = ['POST','GET'])
+@main.route('/downvote/<int:id>',methods = ['POST','GET'])
 @login_required
 def downvote(id):
     pitch = Downvote.get_downvotes(id)

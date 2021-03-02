@@ -8,9 +8,9 @@ from flask_login import UserMixin
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(255),unique = True,nullable = False)
-    email  = db.Column(db.String(255),unique = True,nullable = False)
-    pass_secure = db.Column(db.String(255),nullable = False)
+    username = db.Column(db.String(255),unique = True)
+    email  = db.Column(db.String(255),unique = True)
+    pass_secure = db.Column(db.String(255))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pitches = db.relationship('Pitch', backref='user', lazy='dynamic')
@@ -48,13 +48,14 @@ class Pitch (db.Model):
     __tablename__ = 'pitches'
 
     id = db.Column(db.Integer, primary_key = True)
-    post = db.Column(db.Text(), nullable = False)
+    post = db.Column(db.Text())
+    title = db.Column(db.String(255))
     comment = db.relationship('Comment',backref='pitch',lazy='dynamic')
     upvote = db.relationship('Upvote',backref='pitch',lazy='dynamic')
     downvote = db.relationship('Downvote',backref='pitch',lazy='dynamic')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     posted = db.Column(db.DateTime,default=datetime.utcnow)
-    category = db.Column(db.String(255), index = True,nullable = False)
+    category = db.Column(db.String(255), index = True)
     
 
    
@@ -69,8 +70,8 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.Text(),nullable = False)
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable = False)
-    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'),nullable = False)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
 
     def save_comment(self):
         db.session.add(self)
