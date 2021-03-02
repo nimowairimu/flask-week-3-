@@ -30,14 +30,13 @@ class User(UserMixin,db.Model):
 
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
-
-    def __repr__(self):
-
-       return f'User {self.username}'
     
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+    def __repr__(self):
+        return f'User {self.username}'
 
 class Pitch (db.Model):
     __tablename__ = 'pitches'
@@ -48,9 +47,13 @@ class Pitch (db.Model):
     upvote = db.relationship('Upvote',backref='pitch',lazy='dynamic')
     downvote = db.relationship('Downvote',backref='pitch',lazy='dynamic')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    time = db.Column(db.DateTime, default = datetime.utcnow)
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
     category = db.Column(db.String(255), index = True,nullable = False)
     
 
-    def __repr__(self):
-        return f'User {self.name}'
+   
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()   
+    
+    

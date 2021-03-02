@@ -4,6 +4,7 @@ from flask_login import login_required,login_user,logout_user
 from ..models import User
 from .forms import RegistrationForm,LoginForm
 from .. import db
+from ..email import mail_message
 
 
 
@@ -38,4 +39,5 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("main.index"))
-   
+
+
