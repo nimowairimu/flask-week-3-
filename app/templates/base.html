@@ -7,20 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pitch App</title>
     {% block styles %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Oi&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oi&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Domine&display=swap" rel="stylesheet">
     
     {% endblock %}
 
 </head>
 
 
-<body class="body" style="background-color: #00AFB5;" >
-        {% block navbar %}
+<body class="body" style="background-image: url(../static/london.jpg);background-size: cover; background-repeat: no-repeat;">
+    
+    {% block navbar %}
 
               {% include "navbar.html" %}
         
         {% endblock %}
         {% block content %}
         {% endblock %}
+       
+            </div>
+    
+        
+
+    </div>
+   
+    
+        
 </html>
