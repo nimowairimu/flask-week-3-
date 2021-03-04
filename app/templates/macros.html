@@ -1,16 +1,16 @@
 {% macro display(pitches) %}
 <div class="container-fluid">
 		<div class="row">
-				{% if piches %}
-					{% for category in piches %}
-					<div class="col-md-4" style="padding:20px;" >
+				{% if pitches %}
+					{% for category in pitches %}
+					<div class="col-md-4" >
 						<div class="thumbnail" id="carded">
 							<div class="card-body">
 									<p>{{category.post}}</p>
 									<p class="text-center"> Category: {{category.category}}</p>
 									<footer class="blockquote-footer text-center" > Posted by: {{category.user.username}}</footer>
 								<div><span class="foot" >{{category.comment.count()}} Comments</span> 
-									<span class="foot" > <a href="{{url_for('main.like',id = category.id)}}"><i class="fa fa-thumbs-up" style="font-size:18px;color: green"></i></a> {{category.upvote.count()}}</span>
+									<span class="foot" > <a href="{{url_for('main.like',id = category.id)}}"><i class="fa fa-thumbs-up" ></i></a> {{category.upvote.count()}}</span>
 									
 									
 									<span class="foot"> <a href="{{url_for('main.dislike',id = category.id)}}"> <i class="fa fa-thumbs-down" style="color:rgb(26, 24, 24);"></i> {{category.downvote.count()}}</a></span></div>

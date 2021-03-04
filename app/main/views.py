@@ -1,9 +1,11 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..models import User,Pitch,Comment,Upvote,Downvote
-from .forms import UpdateProfile,PitchForm,CommentForm
+from .forms import PitchForm,CommentForm
 from .. import db,photos
 from flask_login import login_required, current_user
+from .forms import CommentForm,UpdateProfile
+import markdown2
 
 # Views
 @main.route('/')
@@ -18,19 +20,19 @@ def index():
     interview = Pitch.query.filter_by(category = 'Interview').all
     return render_template('index.html',pitch = pitch ,enterpreneur = enterpreneur ,sales = sales ,interview = interview)
 
-@main.route('/user/<username>')
-def profile(username):
-    user = User.query.filter_by(username = username).first()
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
 
     if user is None:
         abort(404)
 
     return render_template("profile/profile.html", user = user)
 
-@main.route('/user/<username>/update',methods = ['GET','POST'])
+@main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
 def update_profile(username):
-    user = User.query.filter_by(username = username).first()
+    user = User.query.filter_by(username = uname).first()
     if user is None:
         abort(404)
 
@@ -75,7 +77,7 @@ def new_pitch():
 
 @main.route('/comment/<int:pitch_id>', methods = ['POST','GET'])
 @login_required
-def comment(pitch_id):
+def new_comment(pitch_id):
     form = CommentForm()
     pitch = Pitch.query.get(pitch_id)
     all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
@@ -92,9 +94,9 @@ def comment(pitch_id):
 @main.route('/upvote/<int:id>',methods = ['POST','GET'])
 @login_required
 def upvote(id):
-    get_pitches = Upvote.get_upvotes(id)
+    get_pitch = Upvote.get_upvotes(id)
     valid_string = f'{current_user.id}:{id}'
-    for pitch in get_pitches:
+    for pitch in get_pitch:
         to_str = f'{pitch}'
         print(valid_string+" "+to_str)
         if valid_string == to_str:
@@ -119,4 +121,5 @@ def downvote(id):
             continue
     new_downvote = Downvote(user = current_user, pitch_id=id)
     new_downvote.save()
-    return redirect(url_for('main.index',id = id))    
+    return redirect(url_for('main.index',id = id))  
+

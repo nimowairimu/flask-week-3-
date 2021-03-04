@@ -1,40 +1,17 @@
 {% extends 'base.html'%}
 {% import 'macros.html' as macro %}
-
 {% block content %}
-
-    
-        <div  class="container">
-                <h2 class="text-center" id="posts">All Pitches</h2>
-                <h4 class="text-center" id="post">We give our users an opportunity to pitch their ideas in one minute.</h4>
-            <ul class="nav nav-pills nav-justified nav-fill" role="tablist">
-                <li class="nav-item" >
-                    <a id ="cats" class="nav-link" data-toggle="tab" href="#all"><strong>All Pitches</strong> </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id ="cats" data-toggle="tab" href="#jobs">Job Pitches</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id ="cats" data-toggle="tab" href="#technology">Technology Pitches</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id ="cats"data-toggle="tab" href="#ads">Advert Pitches</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div  class="container tab-pane active"><br>
-                    {{ macro.display(pitch) }}
-                </div>
-                <div  class="container tab-pane fade"><br>
-                    {{ macro.display(enterpreneur)}}
-                </div>
-                <div  class="container tab-pane fade" ><br>
-                    {{ macro.display(sales) }}
-                </div>
-                <div  class="container tab-pane fade"><br>
-                    {{ macro.display(Interview) }}
-                    
-                </div>
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% if current_user.is_authenticated%}
+                <a id="start" class="btn btn-success animated infinite flash" href="{{url_for('home.index')}}">View all Pitches</a>
+                {% else %}
+                <a id="start" class="btn btn-success animated infinite flash" href="{{url_for('auth.login')}}">Sign In</a>
+                {% endif %}
             </div>
         </div>
-{% endblock%}
+    </div>
+</div>
+{% endblock %}

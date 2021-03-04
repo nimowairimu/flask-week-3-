@@ -8,6 +8,7 @@ class Config:
     '''
     UPLOADED_PHOTOS_DEST ='app/static/photos'
     SQLALCHEMY_TRACK_MODIFICATIONS=True
+    SECRET_KEY=os.environ.get('SECRET_KEY')
     #  email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
@@ -28,9 +29,6 @@ class ProdConfig(Config):
     '''
     pass
 
-class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://nimo:kadesho62@localhost/pitch_test'
-
 
 class DevConfig(Config):
     '''
@@ -45,5 +43,4 @@ class DevConfig(Config):
 config_options = {
 'development':DevConfig,
 'production':ProdConfig,
-'test':TestConfig
 }

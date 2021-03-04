@@ -7,14 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pitch App</title>
     {% block styles %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Oi&display=swap" rel="stylesheet">
     
-    {% endblock %}ee
+    {% endblock %}
+
 </head>
 
 
-<body class="body" style= "background-color:#C8963E ;" >
+<body class="body" style="background-color: #00AFB5;" >
         {% block navbar %}
-        {% include "navbar.html" %}
+
+              {% include "navbar.html" %}
+        
         {% endblock %}
         {% block content %}
         {% endblock %}
