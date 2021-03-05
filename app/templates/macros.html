@@ -1,11 +1,12 @@
 {% macro display(category_list) %}
 <div class="row">
-	{% if category_list %}
-		{% for category in category_list %}
+	{% if pitches %}
+		{% for category in pitches %}
 		<div class="col-md-6">
 			<div class="thumbnail text-center">
 			<h5 class="card-header">{{category.title}}</h5>
 			<h5 class="card-header">{{category.category}}</h5>
+			<p class="card-body"> {{category.post}}</p>
 			<div class="card-body">
 				<blockquote class="blockquote mb-0">
 					<h2>{{category.comment}}</h2>
