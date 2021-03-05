@@ -67,17 +67,17 @@ def upvote(pitch_id):
     pitch.upvote += 1
     
 
-    # pitch = Pitch.query.get(pitch_id)
-    # user = current_user
-    # pitch_upvotes = Upvote.query.filter_by(pitch_id= pitch_id)
+    pitch = Pitch.query.get(pitch_id)
+    user = current_user
+    pitch_upvotes = Upvote.query.filter_by(pitch_id= pitch_id)
     
     # pitch.upvote+=1
-    # if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
-    #     return  redirect(url_for('main.index'))
+    if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
+        return  redirect(url_for('main.index'))
 
 
-    # new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
-    # new_upvote.save_upvotes()
+    new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
+    new_upvote.save_upvotes()
     return redirect(url_for('main.index'))
 
 @main.route('/pitch/downvote/<int:pitch_id>/downvote', methods = ['GET', 'POST'])
