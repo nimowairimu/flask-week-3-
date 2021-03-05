@@ -26,11 +26,11 @@ This is a web application that allows various users to submit a one minute pitch
 ## Prerequisites
 Python3.6
 ## Setup Instructions
-``git clone https://github.com/nimowairimu/flask-week-3-.git``
-`` cd Pitches``
-`` python3.6 -m venv virtual`` (install virtual environment)
-`` source virtual/bin/activate``To activate the virtual environment
-``python3.6 -m pip install -r requirements.txt``  To install all dependencies.
+1. ``git clone https://github.com/nimowairimu/flask-week-3-.git``
+1. `` cd Pitches``
+1. `` python3.6 -m venv virtual`` (install virtual environment)
+1. `` source virtual/bin/activate``To activate the virtual environment
+1. ``python3.6 -m pip install -r requirements.txt``  To install all dependencies.
 1.  Inside the manage.py module change the config_name parameter from 'production' to 'development' ie app = create_app('production') should be app = create_app('development')
 `` ./start.sh`` To run the application on your local server 
 
