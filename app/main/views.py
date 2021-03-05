@@ -29,14 +29,13 @@ def new_pitch():
     form = PitchForm()
     my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
     if form.validate_on_submit():
-        description = form.description.data
         title = form.title.data
         user_id = current_user
         category = form.category.data
-        new_pitch = Pitch(user_id =current_user._get_current_object().id, title = title,description=description,category=category)
+        new_pitch = Pitch(user_id =current_user._get_current_object().id, title = title,category=category)
+        new_pitch.save_pitch()
         db.session.add(new_pitch)
         db.session.commit()
-        
         
         return redirect(url_for('main.index'))
     return render_template('pitch.html',form=form)
