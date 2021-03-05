@@ -14,13 +14,13 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    pitch = Pitch.query.filter_by().first()
+    pitches = Pitch.query.all()
     title = 'Main'
     enterpreneur = Pitch.query.filter_by(category="enterpreneur")
     interview= Pitch.query.filter_by(category = "interview")
     sales = Pitch.query.filter_by(category = "sales")
     
-    return render_template('index.html', enterpreneur = enterpreneur,interview = interview, pitch = pitch,sales= sales ,title =  title)
+    return render_template('index.html', enterpreneur = enterpreneur,interview = interview, pitches = pitches,sales= sales ,title =  title)
     
 
 @main.route('/pitch/new/', methods = ['GET','POST'])
@@ -32,7 +32,8 @@ def new_pitch():
         title = form.title.data
         user_id = current_user
         category = form.category.data
-        new_pitch = Pitch(user_id =current_user._get_current_object().id, title = title,category=category)
+        post = form.post.data
+        new_pitch = Pitch(user_id =current_user._get_current_object().id, title = title,category=category,post=post)
         new_pitch.save_pitch()
         db.session.add(new_pitch)
         db.session.commit()
@@ -40,37 +41,43 @@ def new_pitch():
         return redirect(url_for('main.index'))
     return render_template('pitch.html',form=form)
 
-@main.route('/comment/new/<int:pitch_id>', methods = ['GET','POST'])
+@main.route('/comment/<int:pitch_id>', methods = ['POST','GET'])
 @login_required
 def new_comment(pitch_id):
     form = CommentForm()
-    pitch=Pitch.query.get(pitch_id)
+    pitch = Pitch.query.get(pitch_id)
+    all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
     if form.validate_on_submit():
         comment = form.comment.data
-        user_id = current_user._get_current_object().id
         pitch_id = pitch_id
-        new_comment = Comment(comment = comment, user_id = user_id, pitch_id = pitch_id)
-        db.session.add(new_comment)
-        db.session.commit()
+        user_id = current_user._get_current_object().id
+        new_comment = Comment(comment = comment,user_id = user_id,pitch_id = pitch_id)
+        new_comment.save_comment()
+        return redirect(url_for('.comment', pitch_id = pitch_id))
+    return render_template('comment.html', form =form, pitch = pitch,all_comments=all_comments)
 
-        return redirect(url_for('main.index', pitch_id= pitch_id))
 
-    all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
-    return render_template('comments.html', form = form, comment = all_comments, pitch = pitch )
 
 @main.route('/pitch/upvote/<int:pitch_id>/upvote', methods = ['GET', 'POST'])
 @login_required
 def upvote(pitch_id):
     pitch = Pitch.query.get(pitch_id)
     user = current_user
-    pitch_upvotes = Upvote.query.filter_by(pitch_id= pitch_id)
+    new_upvote = Upvote(user=user, pitch_id= pitch_id)
+    pitch.upvote += 1
     
-    if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
-        return  redirect(url_for('main.index'))
+
+    # pitch = Pitch.query.get(pitch_id)
+    # user = current_user
+    # pitch_upvotes = Upvote.query.filter_by(pitch_id= pitch_id)
+    
+    # pitch.upvote+=1
+    # if Upvote.query.filter(Upvote.user_id==user.id,Upvote.pitch_id==pitch_id).first():
+    #     return  redirect(url_for('main.index'))
 
 
-    new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
-    new_upvote.save_upvotes()
+    # new_upvote = Upvote(pitch_id=pitch_id, user = current_user)
+    # new_upvote.save_upvotes()
     return redirect(url_for('main.index'))
 
 @main.route('/pitch/downvote/<int:pitch_id>/downvote', methods = ['GET', 'POST'])

@@ -1,4 +1,4 @@
-{% macro display(category_list) %}
+{% macro display(pitches) %}
 <div class="row">
 	{% if pitches %}
 		{% for category in pitches %}
@@ -14,8 +14,8 @@
 				</blockquote>
 				
 				<a href="{{url_for('main.new_comment',pitch_id = category.id)}}" class="btn btn-info"> Add a comment</a>
-				<a href="{{url_for('main.upvote',pitch_id = category.id)}}" class= "btn btn-success btn-sm"><i></i>Upvote <span>{{category.upvotes.count()}}</span></a>
-				<a href="{{url_for('main.downvote',pitch_id = category.id)}}" class= "btn btn-info btn-sm"><i class="far fa-thumbs-up"></i>Downvote <span>{{category.downvotes.count()}}</span></a>
+				<a href="{{url_for('main.upvote',pitch_id = category.id)}}" class= "btn btn-success btn-sm"><i></i>Upvote <span>{{category.upvote.count()}}</span></a>
+				<a href="{{url_for('main.downvote',pitch_id = category.id)}}" class= "btn btn-info btn-sm"><i class="far fa-thumbs-up"></i>Downvote <span>{{category.downvote.count()}}</span></a>
             </div>
 		</div>
 
@@ -24,14 +24,14 @@
 	{% else %}
 	{% endif %}
 </div>
-{% endmacro %}
+<!-- {% endmacro %}
 {% macro displayComment(comments) %}
 <ul>
 
 			{% if comments %}
 			{% for comment in comments %}
 				<div class="row text-center">
-					<a><p style="color:rgb(42, 170, 187)">{{ comment.description }}</p></a>
+					<a><p style="color:rgb(42, 170, 187)">{{ comment.comment }}</p></a>
 					<small> posted by {{comment.user.username}}</small>
 				</div>
 			{% endfor %}
@@ -42,4 +42,4 @@
 
 	</ul>
 	
-{% endmacro %}
+{% endmacro %} -->
